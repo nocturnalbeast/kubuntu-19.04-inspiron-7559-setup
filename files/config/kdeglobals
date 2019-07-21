@@ -1,0 +1,7 @@
+[Emoticons]
+emoticonsTheme=EmojiOne
+parseMode=2
+
+[KScreen]
+ScaleFactor=2.3
+ScreenScaleFactors=eDP-1=2.3;HDMI-1=2.3;
