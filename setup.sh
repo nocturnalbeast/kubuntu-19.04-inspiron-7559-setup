@@ -47,7 +47,7 @@ echo_message white "$NAME -- version $VER
       -u, --update       Run package update
       -i, --install      Install NVIDIA drivers and fix GRUB
       -f, --fixdpi       Fix KDE's scaling
-      -t, --tools        Install preferred tools and fonts"
+      -t, --tools        Install preferred tools, fonts and themes"
 
 }
 
@@ -100,30 +100,44 @@ function setup_boot() {
 
 }
 
-# TODO: install vscode and mpv
 function install_tools() {
 
-
 	# install vs-code
-	
+	echo_message info "Installing VS Code..."
+	wget 'https://go.microsoft.com/fwlink/?LinkID=760868' -o code.deb
+	sudo dpkg -i code.deb
 	sudo apt install --fix-missing
 
 	# install preferred vs-code extensions
-	#zamerick.black-ocean
-	#wayou.vscode-todo-highlight
+	echo_message info "Installing preferred VS Code extensions..."
+	for EXT in $(cat ./files/code-exts.list); do
+		code --install-extension $EXT
+	done
 
 	# install gimp
+	echo_message "Installing GIMP..."
 	sudo apt install gimp
 
 	# remove vlc and install mpv
+	echo_message info "Installing MPV..."
+	sudo apt purge --auto-remove vlc
+	sudo apt install mpv
 
+	# install typora
+	echo_message info "Installing Typora..."
+	wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
+	sudo add-apt-repository 'deb https://typora.io/linux ./'
+	sudo apt-get update
+	sudo apt-get install typora
 
 	# deadbeef for music
+	echo_message info "Installing DeadBeef..."
 	sudo apt-add-repository ppa:starws-box/deadbeef-player
 	sudo apt update
 	sudo apt install deadbeef
 
 	# install libreoffice
+	echo_message info "Installing Libreoffice..."
 	sudo apt install libreoffice
 
 }
